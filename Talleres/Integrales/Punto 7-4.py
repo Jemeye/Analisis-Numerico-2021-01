@@ -3,7 +3,6 @@ from scipy.interpolate import lagrange
 import matplotlib.pyplot as plt
 from scipy import integrate
 
-#Integral por el metodo de simpson
 def simpson(pol,a,b,m):
     h = (b-a)/m
     s = 0
@@ -13,7 +12,6 @@ def simpson(pol,a,b,m):
     s = h/3 * (pol(a)+s+pol(b))
     return s
 
-#Integral por el metodo de trapecios
 def trapecios(pol,a,b,m):
     h = (b-a)/m
     s = 0
@@ -23,7 +21,6 @@ def trapecios(pol,a,b,m):
 
     return r
         
-#Llenar los arreglos y definir datos
 x=np.array([0 , 0.2, 0.4, 0.6, 0.8])
 y=np.array([3.592, 3.110, 3.017, 2.865, 2.658])
 bot = 0
@@ -31,7 +28,6 @@ top = 0.8
 n = 20
 rombergEx = 2
 
-#Interpolacion para hallar polinomio
 pol=lagrange(x,y)
 print('x:',x)
 print('y:',y)
