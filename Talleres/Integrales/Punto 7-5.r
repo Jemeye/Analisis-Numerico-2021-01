@@ -1,50 +1,46 @@
-f <- function(x){
-  return(1+sin(3*x^3))
-}
-x <- seq(-2, 2, by=0.1)
-y <- f(x)
-plot(x,y)
-curve(exp(1+sin(3*x^3)), -2, 2, xname = "x",col="blue")
-
-trapezoid <- function(f, bot, top, n) {
-  intval <- integrate(f,bot,top)
-  val2 = intval$value
-  h <- (top-bot)/n
-  x <- seq(bot, top, by=h)
-  y <- f(x)
-  s <- h * (abs(y[1]/2) + abs(sum(y[2:n])) + abs(y[n+1]/2))
-  suma <- h * (abs(y[1]/2) + abs(sum(y[2:n])) + abs(y[n+1]/2))
-  cat("Integral trapecio: ",suma,"\n")
-  error = abs(val2-suma)
-  if (error == 0) {
-    cat("Error trapecio: 0 ","\n")
-  } else {
-    cat("Error trapecio: ",error,"\n")
-  }
+trapezoid = function(fun, a, b, c) {
   
-}
-#Parámetros
-
-bot <--1          # Limite Inferior. 
-top <- 1      # Limite Superior. 
-tol <- 1e-8    # Error permitido 
-n<- 5
-trapezoid(f,-1,1,10)
-
-
-simpsons.rule <- function(f, bot, top) {
-  if (is.function(f) == FALSE) {
-    stop('f must be a function with one parameter (variable)')
-  }
+  Integ = integrate(fun,a,b)
   
-  h <- (top - bot) / 2
-  x0 <- bot
-  x1 <- bot + h
-  x2 <- top
+  y = fun(x)
+  r = Integ$value
+  k = (b-a)/c
+  x = seq(a, b, by=k)
+
+  s = k * (abs(y[1]/2) + abs( sum(y[2:c])) + abs (y [c+1]/2))
   
-  s <- (h / 3) * (f(x0) + 4 * f(x1) + f(x2))
+  result = k * (abs(y[1]/2) + abs( sum(y[2:c])) + abs (y [c+1]/2))
   
-  return(s)
+  cat("Trapecio: ",result," error: ", abs( r - result))
 }
 
-simpsons.rule(f, -1, 1)
+simpson = function(fun, a, b, c) {
+ 
+  Integ = integrate(fun,a,b)
+ 
+  r = Integ$value
+
+    if (c%%2 != 0) stop ("Simpson fin")
+    
+  z = seq(1, c-1, by = 2)
+  l = seq(2, c-2, by = 2)
+  k = (b-a)/c
+  y = fun(a+(0:c)*k)
+  
+  abs(k/3 * ( fun(a) + fun(b) + 4*sum (y[z]) + 2*sum(sum (y [l]))))
+  result = abs(k/3 * ( fun(a) + fun(b) + 4*sum (y[z]) + 2*sum (sum (y[l]))))
+  
+  cat("Simpson: ",result, " error: ", abs( r- result), "\n")
+}
+
+x = seq(-1, 1, by=0.1)
+fun = function(x){
+  return(1+sin(exp(3*x)))
+}
+y = fun(x)
+a = -1       
+b = 1     
+c = 10
+
+simpson(fun,a,b,c)
+trapezoid(fun,a,b,c)
